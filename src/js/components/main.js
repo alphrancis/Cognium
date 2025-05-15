@@ -49,37 +49,21 @@ window.addEventListener('scroll', function () {
     }
   });
   
-document.addEventListener('DOMContentLoaded', function() {
-    initMobileMenu();
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.querySelector(".menu-toggle");
+    const links = document.querySelector(".nav-menu");
     
-    const currentPage = window.location.pathname.split('/').pop();
-    switch(currentPage) {
-        case 'index.html':
-            initHomePage();
-            break;
-        case 'materials.html':
-            initMaterialsFilters();
-            break;
-        case 'tutors.html':
-            initTutorsFilters();
-            break;
-        case 'forum.html':
-            initForumFilters();
-            initForumVotes();
-            break;
-    }
+
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        links.classList.toggle("active");
+        console.log("Hamburger clicked");
+    });
+
 });
 
-function initMobileMenu() {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-    }
-}
 
 function initMaterialsFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
