@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Forum - Cognium</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/forum.css">
+    <link rel="stylesheet" href="../css/auth.css">
+        <link rel ="shortcut icon" type="image/png" href="../assets/logos/logo2.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../assets/logos/logo3.png" alt="Logo" class="logo">
+            </div>
+            <div class="header-center">
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="/index.html" class="nav-link">Home</a></li>
+                        <li><a href="materials.html" class="nav-link">Materials</a></li>
+                        <li><a href="tutors.html" class="nav-link">Tutors</a></li>
+                        <li><a href="forum.html" class="nav-link active">Forum</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="btn-login" onclick="showAuthModal('login')">Login</button>
+                    <button class="btn-signup" onclick="showAuthModal('signup')">Sign Up</button>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <button class="user-menu-button">
+                        <img src="assets/avatars/default.jpg" alt="Profile" class="profile-pic">
+                        <span class="user-name">John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-menu-dropdown">
+                        <a href="#" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="#" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <div class="user-menu-divider"></div>
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+                <button class="menu-toggle" id="menu-icon">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-container">
+            <button class="auth-close" onclick="hideAuthModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="signup">Sign Up</div>
+            </div>
+            <form class="auth-form active" id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="auth-submit">Login</button>
+                <div class="auth-footer">
+                    <a href="#" onclick="showAuthModal('forgot')">Forgot Password?</a>
+                </div>
+            </form>
+            <form class="auth-form" id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" required placeholder="Confirm your password">
+                </div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+    <section class="page-hero">
+                <video class="m-video" autoplay muted loop playsinline>
+                    <source src="../assets/videos/bg3.mp4" type="video/mp4">
+                </video>
+            <div class="home-overlay"></div>
+            <div class="hero-content">
+            <div class="hero-content">
+                <h1>Discussion Forum</h1>
+                <p>A space for asking questions, sharing resources, and engaging in meaningful discussions to enhance your learning.</p>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for study topics...">
+                    <button class="btn btn-primary btn-icon"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </section>
+    <main class="forum-section">
+        <div class="forum-header">
+            <h1>Ask away!</h1>
+            <p>This forum is your space to learn and grow together. Dive into engaging conversations, explore diverse topics, and be part of an ever-expanding network of thinkers and learners</p>
+            <div class="forum-actions">
+                <button class="btn-create" aria-label="Create new post">
+                    <i class="fas fa-plus"></i>
+                    New Post
+                </button>
+            </div>
+        </div>
+
+        <div class="forum-filters">
+            <div class="filter-group">
+                <button class="btn-filter active" data-category="all">All Posts</button>
+                <button class="btn-filter" data-category="general">General</button>
+                <button class="btn-filter" data-category="study">Study</button>
+                <button class="btn-filter" data-category="help">Help</button>
+            </div>
+        </div>
+        <div class="forum-posts" id="forum-posts">
+            <article class="forum-post" data-category="study">
+                <div class="post-header">
+                    <div class="post-meta">
+                        <img src="../assets/images/sisarah.jpg" alt="User avatar" class="avatar">
+                        <div class="post-info">
+                            <h3>Understanding Calculus Basics</h3>
+                            <div class="post-details">
+                                <span><i class="fas fa-user"></i> John Doe</span>
+                                <span><i class="fas fa-clock"></i> 2 hours ago</span>
+                                <span><i class="fas fa-tag"></i> Study</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span class="stat-item" title="Views"><i class="fas fa-eye"></i> 120</span>
+                        <span class="stat-item" title="Replies"><i class="fas fa-comments"></i> 5</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>I'm having trouble understanding the fundamental concepts of calculus. Can anyone explain the relationship between derivatives and integrals in simple terms?</p>
+                </div>
+                <div class="post-tags">
+                    <span class="tag">calculus</span>
+                    <span class="tag">mathematics</span>
+                    <span class="tag">help</span>
+                </div>
+                <div class="post-actions">
+                    <button class="btn-action btn-reply">
+                        <i class="fas fa-reply"></i> Reply
+                    </button>
+                    <button class="btn-action btn-like">
+                        <i class="fas fa-heart"></i> Like
+                    </button>
+                    <button class="btn-action btn-save">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </article>
+
+            <article class="forum-post" data-category="general">
+                <div class="post-header">
+                    <div class="post-meta">
+                        <img src="../assets/images/sisarah.jpg" alt="User avatar" class="avatar">
+                        <div class="post-info">
+                            <h3>Study Group Meeting</h3>
+                            <div class="post-details">
+                                <span><i class="fas fa-user"></i> Jane Smith</span>
+                                <span><i class="fas fa-clock"></i> 1 day ago</span>
+                                <span><i class="fas fa-tag"></i> General</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span class="stat-item" title="Views"><i class="fas fa-eye"></i> 85</span>
+                        <span class="stat-item" title="Replies"><i class="fas fa-comments"></i> 3</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>Looking for study partners for the upcoming physics exam. Anyone interested in forming a study group?</p>
+                </div>
+                <div class="post-tags">
+                    <span class="tag">study-group</span>
+                    <span class="tag">physics</span>
+                </div>
+                <div class="post-actions">
+                    <button class="btn-action btn-reply">
+                        <i class="fas fa-reply"></i> Reply
+                    </button>
+                    <button class="btn-action btn-like">
+                        <i class="fas fa-heart"></i> Like
+                    </button>
+                    <button class="btn-action btn-save">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </article>
+
+            <article class="forum-post" data-category="help">
+                <div class="post-header">
+                    <div class="post-meta">
+                        <img src="../assets/images/sisarah.jpg" alt="User avatar" class="avatar">
+                        <div class="post-info">
+                            <h3>Need Help with Programming Assignment</h3>
+                            <div class="post-details">
+                                <span><i class="fas fa-user"></i> Mike Johnson</span>
+                                <span><i class="fas fa-clock"></i> 3 hours ago</span>
+                                <span><i class="fas fa-tag"></i> Help</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-stats">
+                        <span class="stat-item" title="Views"><i class="fas fa-eye"></i> 95</span>
+                        <span class="stat-item" title="Replies"><i class="fas fa-comments"></i> 7</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>I'm stuck on my Python programming assignment. Can someone help me understand how to implement a binary search tree?</p>
+                </div>
+                <div class="post-tags">
+                    <span class="tag">python</span>
+                    <span class="tag">programming</span>
+                    <span class="tag">data-structures</span>
+                </div>
+                <div class="post-actions">
+                    <button class="btn-action btn-reply">
+                        <i class="fas fa-reply"></i> Reply
+                    </button>
+                    <button class="btn-action btn-like">
+                        <i class="fas fa-heart"></i> Like
+                    </button>
+                    <button class="btn-action btn-save">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </article>
+        </div>
+
+        <div class="forum-pagination">
+            <button class="btn-page" aria-label="Previous page"><i class="fas fa-chevron-left"></i></button>
+            <button class="btn-page active" aria-label="Page 1">1</button>
+            <button class="btn-page" aria-label="Page 2">2</button>
+            <button class="btn-page" aria-label="Page 3">3</button>
+            <button class="btn-page" aria-label="Next page"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </main>
+<footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section about">
+                    <h3>About Cognium!</h3>
+                    <p>A dedicated study platform created by 2nd-year Computer Engineering students at DHVSU. Built with a passion for learning and collaboration, Cognium serves as a hub for students seeking academic support, study resources, and interactive discussions.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="materials.html">Study Materials</a></li>
+                        <li><a href="tutors.html">Find Tutors</a></li>
+                        <li><a href="forum.html">Discussion Forum</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> support@hatdog.com</li>
+                        <li><i class="fas fa-phone"></i>123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> matalino st.</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section newsletter">
+                    <h3>Updates</h3>
+                    <p>Subscribe to our newsletter for updates and learning tips</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2025 hatdog. All rights reserved.</p>
+                <ul class="footer-bottom-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="../js/components/auth.js"></script>
+    <script src="../js/utilities/forum-templates.js"></script>
+    <script src="../js/components/forum.js"></script>
+    <script src="../js/components/main.js"></script>
+</body>
+</html> 

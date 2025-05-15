@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Tutor - Cognium</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/tutors.css">
+    <link rel="stylesheet" href="../css/auth.css">
+        <link rel ="shortcut icon" type="image/png" href="../assets/logos/logo2.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../assets/logos/logo3.png" alt="Logo" class="logo">
+            </div>
+            <div class="header-center">
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="/index.html" class="nav-link">Home</a></li>
+                        <li><a href="materials.html" class="nav-link">Materials</a></li>
+                        <li><a href="tutors.html" class="nav-link active">Tutors</a></li>
+                        <li><a href="forum.html" class="nav-link">Forum</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="btn-login" onclick="showAuthModal('login')">Login</button>
+                    <button class="btn-signup" onclick="showAuthModal('signup')">Sign Up</button>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <button class="user-menu-button">
+                        <img src="assets/avatars/default.jpg" alt="Profile" class="profile-pic">
+                        <span class="user-name">John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-menu-dropdown">
+                        <a href="#" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="#" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <div class="user-menu-divider"></div>
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+                <button class="menu-toggle" id="menu-icon">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-container">
+            <button class="auth-close" onclick="hideAuthModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="signup">Sign Up</div>
+            </div>
+            <!-- Login Form -->
+            <form class="auth-form active" id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="auth-submit">Login</button>
+                <div class="auth-footer">
+                    <a href="#" onclick="showAuthModal('forgot')">Forgot Password?</a>
+                </div>
+            </form>
+            <!-- Sign Up Form -->
+            <form class="auth-form" id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" required placeholder="Confirm your password">
+                </div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <section class="page-hero">
+                <video class="m-video" autoplay muted loop playsinline>
+                    <source src="../assets/videos/bg3.mp4" type="video/mp4">
+                </video>
+            <div class="home-overlay"></div>
+            <div class="hero-content">
+                 <h1>Find Your Perfect Tutor</h1>
+                <p>Connect with experienced tutors who can help you achieve your academic goals</p>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for tutors..." class="form-input" aria-label="Search tutors">
+                    <button class="btn btn-primary btn-icon" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="tutors-section">
+            <div class="section-header">
+                <h2>Expert Tutors</h2>
+                <p>Learn from qualified professionals in various subjects</p>
+            </div>
+            <div class="tutors-filters">
+                <div class="filter-dropdown">
+                    <button class="filter-dropdown-btn" id="filterDropdownBtn">
+                        <i class="fas fa-th-large"></i>
+                        <span>All Subjects</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="filter-dropdown-content" id="filterDropdown">
+                        <button class="filter-option active" data-filter="all">
+                            <i class="fas fa-th-large"></i> All Subjects
+                        </button>
+                        <button class="filter-option" data-filter="math">
+                            <i class="fas fa-square-root-alt"></i> Mathematics
+                        </button>
+                        <button class="filter-option" data-filter="science">
+                            <i class="fas fa-flask"></i> Science
+                        </button>
+                        <button class="filter-option" data-filter="language">
+                            <i class="fas fa-language"></i> Language
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="tutors-grid">
+                <div class="tutor-card" data-category="math">
+                    <div class="tutor-image">
+                        <img src="../assets/images/edw.jpg" alt="Tutor 1">
+                        <div class="tutor-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9</span>
+                        </div>
+                    </div>
+                    <div class="tutor-info">
+                        <h3>Dr. Edward</h3>
+                        <p class="tutor-subject">Mathematics</p>
+                        <p class="tutor-experience">100+ years experience</p>
+                        <div class="tutor-specialties">
+                            <span>Calculus</span>
+                            <span>Algebra</span>
+                            <span>Statistics</span>
+                        </div>
+                        <div class="tutor-availability">
+                            <i class="fas fa-clock"></i>
+                            <span>Available at 6pm Mon-Thur (availability nila)</span>
+                        </div>
+                        <button class="book-btn" aria-label="Book session with tutor">
+                            <i class="fas fa-calendar-check"></i>
+                            Book Session
+                        </button>
+                    </div>
+                </div>
+                <div class="tutor-card" data-category="science">
+                    <div class="tutor-image">
+                        <img src="../assets/images/strange.jpg" alt="Tutor 2">
+                        <div class="tutor-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <div class="tutor-info">
+                        <h3>Prof. Strange</h3>
+                        <p class="tutor-subject">Physics</p>
+                        <p class="tutor-experience">8+ years experience</p>
+                        <div class="tutor-specialties">
+                            <span>Mechanics</span>
+                            <span>Electromagnetism</span>
+                            <span>Quantum Physics</span>
+                        </div>
+                        <div class="tutor-availability">
+                            <i class="fas fa-clock"></i>
+                            <span>Available in 2 hours</span>
+                        </div>
+                        <button class="book-btn" aria-label="Book session with tutor">
+                            <i class="fas fa-calendar-check"></i>
+                            Book Session
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="section-header">
+                <h2>Why Choose Our Tutors?</h2>
+                <p>Expert guidance for your academic success</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-certificate"></i>
+                    <h3>Qualified Experts</h3>
+                    <p>All tutors are verified professionals with proven expertise</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Flexible Schedule</h3>
+                    <p>Book sessions that fit your timetable</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Personalized Learning</h3>
+                    <p>One-on-one attention tailored to your needs</p>
+                </div>
+            </div>
+        </section>
+    </main>
+<footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section about">
+                    <h3>About Cognium!</h3>
+                    <p>A dedicated study platform created by 2nd-year Computer Engineering students at DHVSU. Built with a passion for learning and collaboration, Cognium serves as a hub for students seeking academic support, study resources, and interactive discussions.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="materials.html">Study Materials</a></li>
+                        <li><a href="tutors.html">Find Tutors</a></li>
+                        <li><a href="forum.html">Discussion Forum</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> support@hatdog.com</li>
+                        <li><i class="fas fa-phone"></i>123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> matalino st.</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section newsletter">
+                    <h3>Updates</h3>
+                    <p>Subscribe to our newsletter for updates and learning tips</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2025 hatdog. All rights reserved.</p>
+                <ul class="footer-bottom-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="../js/components/auth.js"> </script>
+    <script src="../js/components/tutors.js"></script>
+    <script src="../js/components/main.js"></script>
+</body>
+</html> 

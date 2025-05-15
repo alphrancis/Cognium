@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognium — Knowledge in one hub. </title>
+    <link rel="stylesheet" href="src/css/common.css">
+    <link rel="stylesheet" href="src/css/home.css">
+    <link rel="stylesheet" href="src/css/auth.css">
+    <link rel ="shortcut icon" type="image/png" href="src/assets/logos/logo2.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="src/assets/logos/logo3.png" alt="Logo" class="logo">
+            </div>
+            <div class="header-center">
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="/index.html" class="nav-link active">Home</a></li>
+                        <li><a href="src/html/materials.html" class="nav-link">Materials</a></li>
+                        <li><a href="src/html/tutors.html" class="nav-link">Tutors</a></li>
+                        <li><a href="src/html/forum.html" class="nav-link">Forum</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="btn-login" onclick="showAuthModal('login')">Login</button>
+                    <button class="btn-signup" onclick="showAuthModal('signup')">Sign Up</button>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <button class="user-menu-button">
+                        <img src="assets/avatars/default.jpg" alt="Profile" class="profile-pic">
+                        <span class="user-name">John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-menu-dropdown">
+                        <a href="#" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="#" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <div class="user-menu-divider"></div>
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+                <button class="menu-toggle" id="menu-icon">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-container">
+            <button class="auth-close" onclick="hideAuthModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="signup">Sign Up</div>
+            </div>
+            <form class="auth-form active" id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="auth-submit">Login</button>
+                <div class="auth-footer">
+                    <a href="#" onclick="showAuthModal('forgot')">Forgot Password?</a>
+                </div>
+            </form>
+            <form class="auth-form" id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" required placeholder="Confirm your password">
+                </div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+    <main id="main-content">
+        <section id="home" class="section active">
+            <div class="home-section">
+                <video class="home-video" autoplay muted loop playsinline>
+                    <source src="src/assets/videos/bg.mp4" type="video/mp4">
+                </video>
+                <div class="home-overlay"></div>
+                <div class="home-content">
+                    <h2>Ease Your Learning Journey with Cognium.</h2>
+                    <p class="home-subtitle"></p>
+                    <div class="home-features">
+                        <div class="home-feature">
+                            <i class="fas fa-book-open"></i>
+                            <span>Premium Study Materials</span>
+                        </div>
+                        <div class="home-feature">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span>Expert Tutors</span>
+                        </div>
+                        <div class="home-feature">
+                            <i class="fas fa-users"></i>
+                            <span>Study Groups</span>
+                        </div>
+                    </div>
+                    <div class="home-buttons">
+                        <a href="src/html/materials.html" class="primary-btn">
+                            <i class="fas fa-rocket"></i>
+                            Get Started
+                        </a>
+                        <button class="secondary-btn">
+                            <i class="fas fa-play-circle"></i>
+                            Watch Demo
+                        </button>
+                    </div>
+                </div>
+                <div class="home-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="25">0</span>
+                        <span class="stat-label">Study Materials</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="10">0</span>
+                        <span class="stat-label">Expert Tutors</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="44">0</span>
+                        <span class="stat-label">Active Students</span>
+                    </div>
+                </div>
+            </div>
+               <div class="features-grid">
+                <a href="src/html/materials.html" class="feature-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Comprehensive Materials</h3>
+                    <p>Access a vast library of study materials, notes, and resources curated by experts</p>
+                </a>
+                <a href="src/html/tutors.html" class="feature-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Expert Guidance</h3>
+                    <p>Connect with experienced tutors and professors for personalized learning support</p>
+                </a>
+                <a href="src/html/forum.html" class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Collaborative Learning</h3>
+                    <p>Join study groups and engage with peers to enhance your learning experience</p>
+                </a>
+            </div>
+            <section class="why-choose-us">
+                <h2>Why work with Cognium?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Expert-Led Learning</h3>
+                        <p>Learn from experienced educators and industry professionals</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Flexible Schedule</h3>
+                        <p>Study at your own pace with 24/7 access to materials</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-certificate"></i>
+                        <h3>Certified Courses</h3>
+                        <p>Earn recognized certificates upon completion</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-comments"></i>
+                        <h3>Active Community</h3>
+                        <p>Join discussions and connect with fellow learners</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="popular-courses">
+                <h2>Popular Courses</h2>
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="src/assets/images/math.jpg" alt="Mathematics">
+                            <span class="course-level">Beginner</span>
+                        </div>
+                        <div class="course-content">
+                            <h3>Mathematics Fundamentals</h3>
+                            <p>Master the basics of algebra, geometry, and calculus</p>
+                            <div class="course-meta">
+                                <span><i class="fas fa-users"></i> 1.2k Students</span>
+                                <span><i class="fas fa-star"></i> 4.8</span>
+                            </div>
+                            <a href="#" class="course-btn">Start Learning</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="testimonials">
+                <h2>What Our Students Say</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"Tolong has transformed my learning experience. The materials are comprehensive and the tutors are incredibly helpful."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="src/assets/images/sisarah.jpg" alt="Student">
+                            <div class="author-info">
+                                <h4>hatdog</h4>
+                                <p>Computer Science Student</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section about">
+                    <h3>About Cognium!</h3>
+                    <p>A dedicated study platform created by 2nd-year Computer Engineering students at DHVSU. Built with a passion for learning and collaboration, Cognium serves as a hub for students seeking academic support, study resources, and interactive discussions.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="src/html/materials.html">Study Materials</a></li>
+                        <li><a href="src/html/tutors.html">Find Tutors</a></li>
+                        <li><a href="src/html/forum.html">Discussion Forum</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> support@hatdog.com</li>
+                        <li><i class="fas fa-phone"></i>123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> matalino st.</li>
+                    </ul>
+                </div>
+                <div class="footer-section newsletter">
+                    <h3>Updates</h3>
+                    <p>Subscribe to our newsletter for updates and learning tips</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2025 hatdog. All rights reserved.</p>
+                <ul class="footer-bottom-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+<script src="src/js/components/auth.js"></script>
+<script src="src/js/components/main.js"></script>
+</body>
+</html> 
