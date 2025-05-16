@@ -31,17 +31,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Form Submissions
+
     document.getElementById('login-form')?.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
         
-        // Here you would typically make an API call to your backend
+
         console.log('Login attempt:', { email, password });
-        
-        // For demo purposes, simulate successful login
-        simulateLogin('John Doe');
     });
 
     document.getElementById('signup-form')?.addEventListener('submit', (e) => {
@@ -56,19 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Here you would typically make an API call to your backend
         console.log('Signup attempt:', { name, email, password });
         
-        // For demo purposes, simulate successful signup and login
-        simulateLogin(name);
     });
 
-    // User Menu Functions
     document.querySelector('.user-menu-button')?.addEventListener('click', () => {
         document.getElementById('user-menu').classList.toggle('active');
     });
 
-    // Close user menu when clicking outside
     document.addEventListener('click', (e) => {
         const userMenu = document.getElementById('user-menu');
         const userMenuButton = document.querySelector('.user-menu-button');
@@ -80,11 +72,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize auth state
+
     checkAuth();
 });
 
-// Simulate login/logout (for demo purposes)
+
 function simulateLogin(name) {
     document.getElementById('auth-buttons').style.display = 'none';
     const userMenu = document.getElementById('user-menu');
@@ -92,7 +84,7 @@ function simulateLogin(name) {
     userMenu.querySelector('.user-name').textContent = name;
     hideAuthModal();
     
-    // Store auth state (for demo purposes)
+
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('userName', name);
 }
@@ -102,15 +94,81 @@ function logout() {
     document.getElementById('user-menu').style.display = 'none';
     document.getElementById('user-menu').classList.remove('active');
     
-    // Clear auth state (for demo purposes)
+    
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userName');
 }
 
-// Check if user is logged in (for demo purposes)
+
 function checkAuth() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (isLoggedIn) {
-        simulateLogin(localStorage.getItem('userName') || 'John Doe');
+    const userName = localStorage.getItem('userName');
+    if (isLoggedIn && userName) {
+        simulateLogin(userName);
     }
-} 
+}
+
+// Signup form handler
+const signupForm = document.getElementById('signup-form');
+if (signupForm) {
+    signupForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('signup-name');
+        const email = document.getElementById('signup-email');
+        const password = document.getElementById('signup-password');
+        const confirm = document.getElementById('signup-confirm');
+        if (password.value !== confirm.value) {
+            alert('Passwords do not match!');
+            return;
+        }
+        try {
+            const res = await fetch('http://localhost:5000/api/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name.value, email: email.value, password: password.value })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Signup successful! You can now log in.');
+                name.value = '';
+                email.value = '';
+                password.value = '';
+                confirm.value = '';
+                hideAuthModal();
+            } else {
+                alert(data.error || 'Signup failed');
+            }
+        } catch (err) {
+            alert('Signup failed. Please try again.');
+        }
+    });
+}
+
+
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email');
+        const password = document.getElementById('login-password');
+        try {
+            const res = await fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email.value, password: password.value })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Login successful!');
+                email.value = '';
+                password.value = '';
+                
+                simulateLogin(data.user.name);
+            } else {
+                alert(data.error || 'Login failed');
+            }
+        } catch (err) {
+            alert('Login failed. Please try again.');
+        }
+    });
+}
