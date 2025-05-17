@@ -25,8 +25,6 @@ app.get(/^\/(?!api\/).*/, (req, res) => {
 
 
 mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
     dbName: process.env.MONGO_DB_NAME 
 });
 

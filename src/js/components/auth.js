@@ -122,7 +122,7 @@ if (signupForm) {
             return;
         }
         try {
-            const res = await fetch('http://localhost:5000/api/signup', {
+            const res = await fetch('/api/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: name.value, email: email.value, password: password.value })
@@ -152,7 +152,7 @@ if (loginForm) {
         const email = document.getElementById('login-email');
         const password = document.getElementById('login-password');
         try {
-            const res = await fetch('http://localhost:5000/api/login', {
+            const res = await fetch('/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email.value, password: password.value })
@@ -172,3 +172,7 @@ if (loginForm) {
         }
     });
 }
+
+window.showAuthModal = showAuthModal;
+window.hideAuthModal = hideAuthModal;
+window.logout = logout;
