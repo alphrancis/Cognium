@@ -45,6 +45,7 @@ document.getElementById('signup-form')?.addEventListener('submit', async (e) => 
         if (!res.ok) throw new Error(data.error || 'Signup failed');
 
         alert('Signup successful! You can now log in.');
+        clearAuthFields(); 
         hideAuthModal();
     } catch (err) {
         console.error('Signup error:', err);
@@ -75,6 +76,7 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         if (!res.ok) throw new Error(data.error || 'Login failed');
 
         alert('Login successful!');
+        clearAuthFields(); 
         simulateLogin(data.user.name);
     } catch (err) {
         console.error('Login error:', err);
@@ -84,28 +86,59 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
 
 
 function simulateLogin(name) {
-    document.getElementById('auth-buttons').style.display = 'none';
-    document.getElementById('user-menu').classList.add('active');
-    document.querySelector('.user-name').textContent = name;
+    const authButtons = document.getElementById('auth-buttons');
+    const userMenuDropdown = document.querySelector('.user-menu-dropdown');
+    const userMenu = document.getElementById('user-menu');
+    
+    if (!authButtons || !userMenu) {
+        console.error("UI elements missing!");
+        return;
+    }
+
+    authButtons.style.display = 'none';
+    userMenu.style.display = 'block';
+    userMenu.classList.add('active');
+
+    const userNameElement = document.querySelector('.user-name');
+    if (userNameElement) {
+        userNameElement.textContent = name;
+    } else {
+        console.error("User name element not found!");
+    }
+
     hideAuthModal();
     
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('userName', name);
+
+    if (userMenuDropdown) {
+        userMenuDropdown.style.display = 'none';
+    }
+
 }
 
 
 function logout() {
-    document.getElementById('auth-buttons').style.display = 'flex';
-    document.getElementById('user-menu').classList.remove('active');
-    
+    const authButtons = document.getElementById('auth-buttons');
+    const userMenu = document.getElementById('user-menu');
+    if (authButtons) authButtons.style.display = 'flex';
+    if (userMenu) {
+        userMenu.classList.remove('active');
+        userMenu.style.display = 'none'; 
+    }
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userName');
 }
 
 
 function checkAuth() {
+    const userMenuDropdown = document.querySelector('.user-menu-dropdown');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const userName = localStorage.getItem('userName');
+
+    if (userMenuDropdown) {
+        userMenuDropdown.style.display = 'none'; 
+    }
 
     if (isLoggedIn === 'true' && userName) {
         simulateLogin(userName);
@@ -115,7 +148,50 @@ function checkAuth() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', checkAuth);
+function clearAuthFields() {
+    const signupFields = ['signup-name', 'signup-email', 'signup-password', 'signup-confirm'];
+    const loginFields = ['login-email', 'login-password'];
+    signupFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    loginFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuth();
+
+    const userMenuButton = document.querySelector('.user-menu-button');
+    const userMenu = document.getElementById('user-menu');
+    const userMenuDropdown = document.querySelector('.user-menu-dropdown');
+
+    if (userMenuButton && userMenuDropdown) {
+        userMenuButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            if (userMenu.classList.contains('active')) {
+                userMenu.classList.remove('active');
+                userMenuDropdown.style.display = 'none';
+            } else {
+                userMenu.classList.add('active');
+                userMenuDropdown.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (userMenu.classList.contains('active') &&
+                !userMenu.contains(e.target) &&
+                !userMenuButton.contains(e.target)
+            ) {
+                userMenu.classList.remove('active');
+                userMenuDropdown.style.display = 'none';
+            }
+        });
+    }
+});
 window.showAuthModal = showAuthModal;
 window.hideAuthModal = hideAuthModal;
 window.logout = logout;
